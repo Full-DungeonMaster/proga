@@ -1,6 +1,6 @@
 from collections import deque
 
-def read_maze(filename):
+def read_maze(filename='input.txt'):
     with open(filename, 'r') as file:
         maze = [list(line.strip()) for line in file]
     return maze
@@ -40,7 +40,7 @@ def bfs(maze, start, end):
     path.reverse()
     return path
 
-def write_solution(maze, path, filename):
+def write_solution(maze, path, filename='output.txt'):
     for (i, j) in path:
         if maze[i][j] not in ('S', 'E'):
             maze[i][j] = '0'
@@ -48,10 +48,12 @@ def write_solution(maze, path, filename):
         for row in maze:
             file.write(''.join(row) + '\n')
 
-def solve_maze(input_file, output_file):
-    maze = read_maze(input_file)
+def solve_maze():
+    maze = read_maze()
     start, end = find_start_end(maze)
     if not start or not end:
         raise ValueError("Лабиринт должен содержать начальную ('S') и конечную ('E') точки.")
     path = bfs(maze, start, end)
-    write_solution(maze, path, output_file)
+    write_solution(maze, path)
+
+solve_maze()
